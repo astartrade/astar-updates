@@ -4,6 +4,8 @@ import Image from "next/image";
 import { LucideArrowUpRight } from "lucide-react";
 
 import { bebas, poppins } from "@/config/fonts";
+import Link from "next/link";
+import { Button } from "@nextui-org/button";
 
 type Props = {};
 
@@ -355,8 +357,9 @@ const JumbotronAbout = (props: Props) => {
                     </p>
                   </div>
                 </div>
-                <a
-                  className="group inline-flex items-center gap-x-2 rounded-full bg-lime-500 px-3 py-2 text-sm font-medium text-neutral-800 focus:outline-none"
+                <Button
+                variant="flat"
+                  className="group inline-flex items-center gap-x-2 rounded-full bg-lime-500 px-4 py-2 text-sm font-medium text-white focus:outline-none"
                   href="/contact"
                 >
                   <svg
@@ -382,7 +385,7 @@ const JumbotronAbout = (props: Props) => {
                     />
                   </svg>
                   Schedule a call
-                </a>
+                </Button>
               </div>
               {/* End Timeline */}
             </div>
