@@ -1,6 +1,8 @@
+// components/ArticleForm.tsx
+
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@nextui-org/button';
 import { Input, Textarea } from '@nextui-org/input';
@@ -11,6 +13,7 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useUser } from '@clerk/nextjs';
 import { Avatar } from '@nextui-org/react';
+import TinyMCE from './TinyCE';
 
 interface ArticleFormData {
   title: string;
@@ -39,6 +42,7 @@ const newsCategories = [
 ];
 
 export default function ArticleForm() {
+  const [text, setTextContent] = useState<string>('');
   const { user } = useUser();
   const {
     register,
@@ -50,6 +54,7 @@ export default function ArticleForm() {
       publishedDate: new Date().toISOString().split('T')[0],
       status: 'published',
       category: 'business-finance',
+      text: text,
     },
   });
 
@@ -64,13 +69,21 @@ export default function ArticleForm() {
   }, [user, setValue]);
 
   const onSubmit: SubmitHandler<ArticleFormData> = async (data) => {
+    // Add the text content to the data object
+    const fullData = {
+      ...data,
+      text,
+    };
+
+    // console.log(fullData); // Log the complete data object with text
+
     try {
       const response = await axios.post('/api/articles', {
-        ...data,
+        ...fullData,
         author: {
-          name: data.authorName,
-          email: data.authorEmail,
-          avatar: data.authorAvatar,
+          name: fullData.authorName,
+          email: fullData.authorEmail,
+          avatar: fullData.authorAvatar,
         },
       });
       toast.success('Article created successfully!');
@@ -84,6 +97,8 @@ export default function ArticleForm() {
   if (!user) {
     return <div>Please sign in to create an article.</div>;
   }
+
+  console.log(text);
 
   return (
     <Card className='w-full max-w-6xl mx-auto'>
@@ -111,12 +126,11 @@ export default function ArticleForm() {
               ))}
             </Select>
           </div>
-
-          <Textarea
-            {...register('text', { required: true })}
-            label='Content'
-            placeholder='Write the content here'
-            isInvalid={errors.text ? true : false}
+          <TinyMCE
+            value={text}
+            onChange={(content: React.SetStateAction<string>) =>
+              setTextContent(content)
+            }
           />
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>

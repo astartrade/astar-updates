@@ -34,7 +34,11 @@ export default function NewsContent({
             <li key={article.id}>
               <BlogCard
                 author="By Astar Team"
-                description={article.text}
+                description={
+                  <div
+                    dangerouslySetInnerHTML={{ __html: article.text }}
+                  />
+                }
                 imageAlt="Intra-African Trade"
                 imageSrc={article.thumbnail}
                 title={article.title}

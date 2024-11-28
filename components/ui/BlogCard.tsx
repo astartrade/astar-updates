@@ -7,7 +7,7 @@ interface BlogCardProps {
   imageSrc: string;
   imageAlt: string;
   title: string;
-  description: string;
+  description: JSX.Element;
   avatarSrc?: string;
   author?: string;
 }
