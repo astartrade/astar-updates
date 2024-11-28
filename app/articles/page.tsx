@@ -5,8 +5,14 @@ import { prisma } from "@/lib/prisma";
 export default async function NewsPage() {
   // Fetch initial data on the server
   const initialArticles = await prisma.article.findMany({
-    include: { author: true },
+    where: {
+      status: "published", // Adjust based on your field name and value
+    },
+    include: {
+      author: true,
+    },
   });
+  
 
   return (
     <div className="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">

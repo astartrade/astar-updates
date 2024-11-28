@@ -1,76 +1,65 @@
-import BlogCard from "@/components/ui/BlogCard";
-import { bebas } from "@/config/fonts";
+import { PrismaClient } from "@prisma/client";
+import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
+import { Chip } from "@nextui-org/chip";
+import { Image } from "@nextui-org/image";
+import Link from "next/link";
 
-// Removed the import of BlogCard due to the error
+const prisma = new PrismaClient();
 
-export default function NewsPage() {
+async function getArticles() {
+  const articles = await prisma.article.findMany({
+    include: { author: true },
+    orderBy: { publishedDate: 'desc' },
+  });
+  return articles;
+}
+
+export default async function ArticlesPage() {
+  const articles = await getArticles();
+
   return (
-    <>
-      {/* Card Blog */}
-      <div className="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-        {/* Title */}
-        <div className="mx-auto mb-10 max-w-7xl text-left lg:mb-14">
-          <h2
-            className={`${bebas.className} text-2xl dark:text-white md:text-4xl md:leading-tight`}
+    <div className="container mx-auto py-8 px-4">
+      <h1 className="text-4xl font-bold mb-8">Articles</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {articles.map((article) => (
+          <Card 
+            key={article.id} 
+            className="max-w-full"
+            isPressable
+            as={Link}
+            href={`/news/${article.slug}`}
           >
-            News & Articles
-          </h2>
-          <p className="mt-1 max-w-4xl text-gray-600 dark:text-neutral-400">
-            Welcome to our News and Articles section, where we dive into
-            Africa's evolving markets, exploring the power of trade, technology,
-            and sustainability.
-          </p>
-          <br />
-          <p className="mt-1 max-w-4xl text-gray-600 dark:text-neutral-400">
-            {" "}
-            From the game-changing African Continental Free Trade Area (AfCFTA)
-            to the leading commodities of 2024, discover fresh insights that
-            drive regional growth, support sustainable investment, and empower
-            Africa's economic transformation.
-          </p>
-        </div>
-        {/* End Title */}
-
-        {/* Grid */}
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Card */}
-          <BlogCard
-            author="By Astar Team"
-            description="We will Discuss the opportunities that the African Continental Free Trade Area 
-              (AfCFTA) provides for businesses and investors in commodities"
-            imageAlt="Intra-African Trade"
-            imageSrc="/images/farming.jpg"
-            title="The Rise of Intra-African Trade: What It Means for Regional Growth"
-          />
-          <BlogCard
-            author="By Astar Team"
-            description="We will focus on the key commodities (like oil, gas, minerals, agriculture) and how 
-                they impact regional markets."
-            imageAlt="Commodities in Africa"
-            imageSrc="/images/construction.jpg"
-            title="Top Commodities Driving Africa’s Economy in 2024"
-          />
-          <BlogCard
-            author="By Astar Team"
-            description="Under this we will explain the importance of sustainability in investment, 
-                  highlighting ASTAR’s commitment to promoting eco-friendly projects."
-            imageAlt="Sustainable Investment"
-            imageSrc="/images/mission2.jpg"
-            title="Why Sustainable Investment Matters for Africa’s Future"
-          />
-          <BlogCard
-            author="By Astar Team"
-            description="Here, we will Discuss how technology is transforming commodities trading in Africa, 
-            from blockchain for transparency to AI for market analysis."
-            imageAlt="Sustainable Investment"
-            imageSrc="/images/trading.jpg"
-            title="The Role of Technology in Africa’s Commodity Markets"
-          />
-          {/* End Card */}
-        </div>
-        {/* End Grid */}
+            {article.thumbnail && (
+              <CardHeader className="p-0">
+                <Image
+                  src={article.thumbnail}
+                  alt={article.title}
+                  className="w-full h-48 object-cover"
+                  radius="none"
+                  fallbackSrc="/placeholder.svg"
+                />
+              </CardHeader>
+            )}
+            <CardBody className="flex-grow">
+              <div className="flex justify-between items-start gap-2">
+                <h2 className="text-lg font-bold">{article.title}</h2>
+                {article.category && (
+                  <Chip size="sm" color="primary">
+                    {article.category}
+                  </Chip>
+                )}
+              </div>
+              <p className="text-sm text-default-500 mt-2">
+                By {article.author.name} • {new Date(article.publishedDate).toLocaleDateString()}
+              </p>
+              <p className="mt-2 line-clamp-3 text-sm text-default-600">
+                {article.text}
+              </p>
+            </CardBody>
+          </Card>
+        ))}
       </div>
-      {/* End Card Blog */}
-    </>
+    </div>
   );
 }
+

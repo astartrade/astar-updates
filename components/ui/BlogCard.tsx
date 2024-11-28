@@ -4,8 +4,8 @@ import Link from "next/link";
 import { bebas } from "@/config/fonts";
 
 interface BlogCardProps {
-  imageSrc: string;
-  imageAlt: string;
+  imageSrc?: string;
+  imageAlt?: string;
   title: string;
   description: JSX.Element;
   avatarSrc?: string;
@@ -13,8 +13,8 @@ interface BlogCardProps {
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({
-  imageSrc,
-  imageAlt,
+  imageSrc ="https://fakeimg.pl/600x400",
+  imageAlt="Test Image",
   title,
   description,
   avatarSrc = "/images/logo.png",
@@ -41,9 +41,9 @@ const BlogCard: React.FC<BlogCardProps> = ({
         >
           {title}
         </h3>
-        <p className="mt-5 text-gray-600 dark:text-neutral-400">
+        <div className="mt-5 text-gray-600 dark:text-neutral-400">
           {description}
-        </p>
+        </div>
       </div>
       <div className="mt-auto flex items-center gap-x-3">
         <Image
