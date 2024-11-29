@@ -12,6 +12,11 @@ const nextConfig = {
                 hostname: 'fakeimg.pl',
                 // ... additional options if needed ...
             },
+            {
+                protocol: 'https',
+                hostname: 'img.clerk.com',
+                // ... additional options if needed ...
+            },
         ],
     },
 }

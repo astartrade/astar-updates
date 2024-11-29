@@ -36,36 +36,42 @@ export default function NewsPage() {
           {/* Card */}
           <BlogCard
             author="By Astar Team"
-            description="We will Discuss the opportunities that the African Continental Free Trade Area 
-              (AfCFTA) provides for businesses and investors in commodities"
+            description={<div className="">We will Discuss the opportunities that the African Continental Free Trade Area 
+              (AfCFTA) provides for businesses and investors in commodities</div>}
             imageAlt="Intra-African Trade"
             imageSrc="/images/farming.jpg"
             title="The Rise of Intra-African Trade: What It Means for Regional Growth"
           />
           <BlogCard
             author="By Astar Team"
-            description="We will focus on the key commodities (like oil, gas, minerals, agriculture) and how 
-                they impact regional markets."
-            imageAlt="Commodities in Africa"
-            imageSrc="/images/construction.jpg"
-            title="Top Commodities Driving Africa’s Economy in 2024"
+            description={<div className="line-clamp-5 ">We will Discuss the opportunities that the African Continental Free Trade Area 
+              (AfCFTA) provides for businesses and investors in commoditiesWe will Discuss the opportunities that the African Continental Free Trade Area 
+              (AfCFTA) provides for businesses and investors in commoditiesWe will Discuss the opportunities that the African Continental Free Trade Area 
+              (AfCFTA) provides for businesses and investors in commoditiesWe will Discuss the opportunities that the African Continental Free Trade Area 
+              (AfCFTA) provides for businesses and investors in commoditiesWe will Discuss the opportunities that the African Continental Free Trade Area 
+              (AfCFTA) provides for businesses and investors in commodities</div>}
+            imageAlt="Intra-African Trade"
+            imageSrc="/images/farming.jpg"
+            title="The Rise of Intra-African Trade: What It Means for Regional Growth"
           />
           <BlogCard
             author="By Astar Team"
-            description="Under this we will explain the importance of sustainability in investment, 
-                  highlighting ASTAR’s commitment to promoting eco-friendly projects."
-            imageAlt="Sustainable Investment"
-            imageSrc="/images/mission2.jpg"
-            title="Why Sustainable Investment Matters for Africa’s Future"
+            description={<div className="">We will Discuss the opportunities that the African Continental Free Trade Area 
+              (AfCFTA) provides for businesses and investors in commodities</div>}
+            imageAlt="Intra-African Trade"
+            imageSrc="/images/farming.jpg"
+            title="The Rise of Intra-African Trade: What It Means for Regional Growth"
           />
           <BlogCard
             author="By Astar Team"
-            description="Here, we will Discuss how technology is transforming commodities trading in Africa, 
-            from blockchain for transparency to AI for market analysis."
-            imageAlt="Sustainable Investment"
-            imageSrc="/images/trading.jpg"
-            title="The Role of Technology in Africa’s Commodity Markets"
+            description={<div className="">We will Discuss the opportunities that the African Continental Free Trade Area 
+              (AfCFTA) provides for businesses and investors in commodities</div>}
+            imageAlt="Intra-African Trade"
+            imageSrc="/images/farming.jpg"
+            title="The Rise of Intra-African Trade: What It Means for Regional Growth"
           />
+
+
           {/* End Card */}
         </div>
         {/* End Grid */}

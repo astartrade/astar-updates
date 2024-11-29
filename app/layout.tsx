@@ -6,7 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Providers } from "./providers";
 
-import { poppins } from "@/config/fonts";
+import { bebas, poppins } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
 import Footer from "@/components/ui/Footer";
 import { Navbar } from "@/components/ui/Navbar";
@@ -38,10 +38,12 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <head />
       <body
-        className={clsx(
-          "min-h-screen  overflow-x-hidden bg-gray-100 text-[16px] antialiased ",
-          poppins.className,
-        )}
+
+      className={`min-h-screen  overflow-x-hidden bg-gray-100 text-[16px] antialiased ${poppins.className} ${bebas.variable}`}
+        // className={clsx(
+        //   " font-bebas ",
+        //   poppins.className,
+        // )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <main>

@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    console.log('WE AER HERE ...')
     const data = await req.json();
     const slug = generateSlug(data.title);
 
