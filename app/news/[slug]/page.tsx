@@ -1,36 +1,57 @@
-import { PrismaClient } from '@prisma/client';
-import { notFound } from 'next/navigation';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Image } from '@nextui-org/image';
 import { Chip } from '@nextui-org/chip';
 import { Avatar } from '@nextui-org/avatar';
-import { Divider } from '@nextui-org/react';
+import { Divider, Tooltip } from '@nextui-org/react';
 import { LucideFilePenLine, LucideTrash2 } from 'lucide-react';
 import Link from 'next/link';
-import { auth } from '@clerk/nextjs/server';
 import { format } from 'date-fns';
+import Loading from '@/components/ui/Loading';
+import { useAuth } from '@clerk/nextjs';
 
-const prisma = new PrismaClient();
+export default function ArticlePage({ params }: { params: { slug: string } }) {
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
 
-export async function getArticle(slug: string) {
-  const article = await prisma.article.findFirst({
-    where: {
-      slug: slug,
-    },
-    include: { author: true },
-  });
-  if (!article) notFound();
-  return article;
-}
+  const [article, setArticle] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-export default async function ArticlePage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const article = await getArticle(params.slug);
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        console.log(params);
+        const response = await fetch(`/api/getArticle/${params.slug}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch article');
+        }
+        const data = await response.json();
+        setArticle(data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticle();
+  }, [params.slug]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+  if (!article) {
+    return <p>Article not found</p>;
+  }
+
   const formattedDate = format(new Date(article.publishedDate), 'MMM dd, yyyy');
-  const { userId }: { userId: string | null } = await auth();
 
   return (
     <div className='p-4'>
@@ -45,18 +66,22 @@ export default async function ArticlePage({
             </Chip>
             {userId ? (
               <div className='flex items-center gap-1 absolute left-2 top-2 z-50'>
-                <Link href={'#'}>
-                  <LucideFilePenLine
-                    className='text-white  bg-lime-600 
-                rounded-full box-content p-1'
-                  />
-                </Link>
-                <Link href={'#'}>
-                  <LucideTrash2
-                    className='text-white   bg-red-600 
-                rounded-full box-content p-1'
-                  />
-                </Link>
+                <Tooltip content='Edit News Article'>
+                  <Link href={'#'}>
+                    <LucideFilePenLine
+                      className='text-white  bg-lime-600 
+              rounded-full box-content p-1'
+                    />
+                  </Link>
+                </Tooltip>
+                <Tooltip color='danger' content='Delete News Article'>
+                  <Link href={'#'}>
+                    <LucideTrash2
+                      className='text-white   bg-red-600 
+                    rounded-full box-content p-1'
+                    />
+                  </Link>
+                </Tooltip>
               </div>
             ) : (
               ''
@@ -77,14 +102,12 @@ export default async function ArticlePage({
             <div className='md:flex justify-between items-start gap-4 mb-4'>
               <h1 className='text-2xl'>{article.title}</h1>
               <div>
-                {article.category && (
                   <Chip
                     className='px-2 rounded-none font-bebas'
                     size='md'
                     color='primary'>
                     {formattedDate}
                   </Chip>
-                )}
               </div>
             </div>
 
