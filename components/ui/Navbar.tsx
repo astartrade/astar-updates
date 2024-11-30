@@ -171,7 +171,7 @@ export const Navbar = () => {
               />
               <UserButton.UserProfileLink
                 label='Add News Article'
-                url='/article'
+                url='/create-article'
                 labelIcon={<LucidePlusSquare className='w-4 h-4' />}
               />
             </UserButton>

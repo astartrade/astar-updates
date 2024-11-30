@@ -48,12 +48,12 @@ export default async function ArticlesPage() {
               key={article.id}
               url={`/news/${article.slug}`}
               author={article.author.name}
-              avatarSrc={article.author.avatar}
+              avatarSrc={article.author.avatar || ''}
               description={
-                <div className='line-clamp-4' dangerouslySetInnerHTML={{ __html: article.text }} />
+                <div className='line-clamp-4 text-small' dangerouslySetInnerHTML={{ __html: article.excerpt || '' }} />
               }
               imageAlt='Intra-African Trade'
-              imageSrc='/images/farming.jpg'
+              imageSrc='/images/aaha.jpg'
               title={article.title}
             />
           ))}

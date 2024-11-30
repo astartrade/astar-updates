@@ -14,6 +14,10 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useUser } from '@clerk/nextjs';
 import { Avatar } from '@nextui-org/react';
 import TinyMCE from './TinyCE';
+import Loading from './ui/Loading';
+import { useRouter } from 'next/navigation';
+import { CldImage } from 'next-cloudinary';
+
 
 interface ArticleFormData {
   title: string;
@@ -21,6 +25,7 @@ interface ArticleFormData {
   text: string;
   publishedDate: string;
   status: string;
+  excerpt: string;
   thumbnail: string;
   authorName: string;
   authorEmail: string;
@@ -42,6 +47,8 @@ const newsCategories = [
 ];
 
 export default function ArticleForm() {
+  const router = useRouter();
+
   const [text, setTextContent] = useState<string>('');
   const { user } = useUser();
   const {
@@ -75,10 +82,8 @@ export default function ArticleForm() {
       text,
     };
 
-    // console.log(fullData); // Log the complete data object with text
-
     try {
-      const response = await axios.post('/api/articles', {
+      const response = await axios.post('/api/articles/createArticle', {
         ...fullData,
         author: {
           name: fullData.authorName,
@@ -86,23 +91,35 @@ export default function ArticleForm() {
           avatar: fullData.authorAvatar,
         },
       });
+
       toast.success('Article created successfully!');
-      console.log('Article created:', response.data);
-    } catch (error) {
-      toast.error('Failed to create article. Please try again.');
+      router.push('/news');
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        const { code, error: errorMessage } = error.response.data;
+
+        if (code === 'P2002') {
+          toast.error(errorMessage || 'Article already exists.');
+        } else {
+          toast.error(
+            errorMessage || 'Failed to create article. Please try again.'
+          );
+        }
+      } else {
+        toast.error('An unexpected error occurred. Please try again.');
+      }
+
       console.error('Error creating article:', error);
     }
   };
 
   if (!user) {
-    return <div>Please sign in to create an article.</div>;
+    return <Loading />;
   }
-
-  console.log(text);
 
   return (
     <Card className='w-full max-w-6xl mx-auto'>
-      <CardHeader className='flex gap-3'>
+      <CardHeader className='flex gap-3 pt-8'>
         <h1 className='text-xl font-bold'>Create Article</h1>
       </CardHeader>
       <CardBody>
@@ -110,6 +127,7 @@ export default function ArticleForm() {
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <Input
               {...register('title', { required: true })}
+              isRequired
               label='Title'
               placeholder='Enter the title'
               isInvalid={errors.title ? true : false}
@@ -125,6 +143,25 @@ export default function ArticleForm() {
                 </SelectItem>
               ))}
             </Select>
+          </div>
+          <div className='grid grid-cols-1'>
+            <Input
+              {...register('excerpt', { required: true })}
+              isInvalid={errors.excerpt ? true : false}
+              color={errors.excerpt ? 'warning' : 'default'}
+              isRequired
+              type='text'
+              label='News Article Excerpt'
+              className='max-w-full '
+            />
+            {/* <Textarea
+              variant='faded'
+              label='Excerpts'
+              placeholder='Excerpts of News Article'
+              description='Excerpts of News Article'
+              className='max-w-full'
+              as={Input}
+            /> */}
           </div>
           <TinyMCE
             value={text}
@@ -155,12 +192,8 @@ export default function ArticleForm() {
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-            {/* <Input
-              {...register('views', { valueAsNumber: true })}
-              type='number'
-              label='Views'
-              placeholder='Enter number of views'
-            /> */}
+
+
             <Input
               {...register('thumbnail')}
               label='Thumbnail URL'
@@ -168,7 +201,7 @@ export default function ArticleForm() {
             />
           </div>
 
-          <div className='space-y-4'>
+          <div className='space-y-4 hidden'>
             <h3 className='text-lg font-semibold'>Author Details</h3>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
               <div className='flex items-center gap-4'>

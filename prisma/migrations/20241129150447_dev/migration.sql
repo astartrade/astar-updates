@@ -6,6 +6,7 @@ CREATE TABLE "Article" (
     "authorId" INTEGER NOT NULL,
     "category" TEXT,
     "text" TEXT NOT NULL,
+    "excerpt" TEXT,
     "publishedDate" DATETIME NOT NULL,
     "status" TEXT,
     "views" INTEGER DEFAULT 0,
