@@ -12,7 +12,7 @@ import { ArrowRight } from 'lucide-react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useUser } from '@clerk/nextjs';
-import { Avatar } from '@nextui-org/react';
+import { Avatar, DatePicker } from '@nextui-org/react';
 import TinyMCE from './TinyCE';
 import Loading from './ui/Loading';
 import { useRouter } from 'next/navigation';
@@ -30,6 +30,7 @@ import 'filepond/dist/filepond.min.css';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import { uploadToCloudinary } from '@/config/cloudinaryUploader';
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -109,7 +110,7 @@ export default function ArticleForm() {
       });
 
       toast.success('Article created successfully!');
-      router.push('/news');
+      window.location.href = '/news';
     } catch (error: any) {
       if (error.response && error.response.data) {
         const { code, error: errorMessage } = error.response.data;
@@ -133,7 +134,7 @@ export default function ArticleForm() {
     return <Loading />;
   }
 
-  console.log('FEATURED IMAGE IS:' + featuredImage)
+  console.log('FEATURED IMAGE IS:' + featuredImage);
 
   return (
     <Card className='w-full max-w-6xl mx-auto'>
@@ -172,14 +173,6 @@ export default function ArticleForm() {
               label='News Article Excerpt'
               className='max-w-full '
             />
-            {/* <Textarea
-              variant='faded'
-              label='Excerpts'
-              placeholder='Excerpts of News Article'
-              description='Excerpts of News Article'
-              className='max-w-full'
-              as={Input}
-            /> */}
           </div>
           <div>
             <div>
@@ -198,24 +191,21 @@ export default function ArticleForm() {
                     error,
                     progress
                   ) => {
-                    const formData = new FormData();
-                    formData.append('file', file);
-                    formData.append('upload_preset', 'astartrade'); // Replace with your Cloudinary upload preset.
-
                     try {
-                      const response = await fetch(
-                        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-                        {
-                          method: 'POST',
-                          body: formData,
-                        }
+                      const fileArrayBuffer = await file.arrayBuffer(); // Convert the promise to a resolved ArrayBuffer
+                      const fileObject = new File(
+                        [fileArrayBuffer],
+                        file.name,
+                        { type: file.type }
                       );
-
-                      const data = await response.json();
-                      setFeaturedImage(data.secure_url); // Store the uploaded image URL.
-                      load(data.secure_url); // Notify FilePond of the successful upload.
+                      const secureUrl = await uploadToCloudinary(
+                        fileObject,
+                        'astartrade'
+                      ); // Replace with your upload preset.
+                      setFeaturedImage(secureUrl); // Store the uploaded image URL.
+                      load(secureUrl); // Notify FilePond of the successful upload.
                     } catch (err) {
-                      console.error(err + '123456789');
+                      console.error(err);
                       error('Image upload failed');
                     }
                   },
@@ -231,6 +221,7 @@ export default function ArticleForm() {
           />
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+
             <Input
               {...register('publishedDate', { required: true })}
               type='date'
@@ -251,13 +242,13 @@ export default function ArticleForm() {
             </Select>
           </div>
 
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          {/* <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <Input
               {...register('thumbnail')}
               label='Thumbnail URL'
               placeholder='Enter thumbnail URL'
             />
-          </div>
+          </div> */}
 
           <div className='space-y-4 hidden'>
             <h3 className='text-lg font-semibold'>Author Details</h3>
@@ -297,13 +288,6 @@ export default function ArticleForm() {
                 isInvalid={errors.authorEmail ? true : false}
               />
             </div>
-            {/* <Input
-              {...register('authorAvatar', { required: true })}
-              label='Author Avatar URL'
-              placeholder="Enter author's avatar URL"
-              isReadOnly
-              isInvalid={errors.authorAvatar ? true : false}
-            /> */}
           </div>
 
           <div>

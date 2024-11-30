@@ -16,7 +16,11 @@ import {
   Tooltip,
   useDisclosure,
 } from '@nextui-org/react';
-import { LucideFilePenLine, LucideTrash2 } from 'lucide-react';
+import {
+  LucideFilePenLine,
+  LucidePlusCircle,
+  LucideTrash2,
+} from 'lucide-react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import Loading from '@/components/ui/Loading';
@@ -38,9 +42,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await fetch(
-          `/api/articles/getArticle/${params.slug}`
-        );
+        const response = await fetch(`/api/articles/getArticle/${params.slug}`);
         if (!response.ok) {
           throw new Error('Failed to fetch article');
         }
@@ -69,8 +71,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
 
       // Optionally, you can redirect the user or update the state after successful deletion
       toast.success('Article created successfully!');
-      router.push('/news');
-
+      window.location.href = '/news';
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -103,9 +104,17 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
               color='warning'>
               {article.category}
             </Chip>
-            {isLoaded ? (
+            {isLoaded && userId ? (
               <div className='flex items-center gap-1 absolute left-2 top-2 z-50'>
-                <Tooltip content='Edit News Article'>
+                <Tooltip color='success' content='Add New Article'>
+                  <Link href={'/create-article'}>
+                    <LucidePlusCircle
+                      className='text-white  bg-blue-600 
+              rounded-full box-content p-1'
+                    />
+                  </Link>
+                </Tooltip>
+                <Tooltip color='secondary' content='Edit This Article'>
                   <Link href={'#'}>
                     <LucideFilePenLine
                       className='text-white  bg-lime-600 
@@ -156,15 +165,22 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
               </ModalContent>
             </Modal>
             <Image
-              src={
-                article.featuredImage
-                  ? article.featuredImage
-                  : '/images/aaha.jpg'
-              }
               alt={article.title}
-              className='w-full  object-cover'
-              radius='none'
-              fallbackSrc='/images/aaha.jpg'
+              fallbackSrc={article.featuredImage}
+              src={article.featuredImage}
+              // src={
+              //   article.featuredImage
+              //     ? article.featuredImage
+              //     : article.featuredImage
+              // }
+              width={1000}
+              height={475}
+              sizes='100vw'
+              className='rounded-b-none'
+              style={{
+                width: '100vw',
+                height: 'auto',
+              }}
             />
           </CardHeader>
           <CardBody className='md:p-8'>
