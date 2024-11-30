@@ -50,10 +50,17 @@ export default async function ArticlesPage() {
               author={article.author.name}
               avatarSrc={article.author.avatar || ''}
               description={
-                <div className='line-clamp-4 text-small' dangerouslySetInnerHTML={{ __html: article.excerpt || '' }} />
+                <div
+                  className='line-clamp-4 text-small'
+                  dangerouslySetInnerHTML={{ __html: article.excerpt || '' }}
+                />
               }
               imageAlt='Intra-African Trade'
-              imageSrc='/images/aaha.jpg'
+              imageSrc={
+                article.featuredImage
+                  ? article.featuredImage
+                  : '/images/aaha.jpg'
+              }
               title={article.title}
             />
           ))}

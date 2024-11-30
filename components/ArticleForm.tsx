@@ -16,8 +16,23 @@ import { Avatar } from '@nextui-org/react';
 import TinyMCE from './TinyCE';
 import Loading from './ui/Loading';
 import { useRouter } from 'next/navigation';
-import { CldImage } from 'next-cloudinary';
+import { CldImage, CldUploadWidget } from 'next-cloudinary';
 
+// Import React FilePond
+import { FilePond, registerPlugin } from 'react-filepond';
+
+// Import FilePond styles
+import 'filepond/dist/filepond.min.css';
+
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+
+// Register the plugins
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 interface ArticleFormData {
   title: string;
@@ -48,8 +63,8 @@ const newsCategories = [
 
 export default function ArticleForm() {
   const router = useRouter();
-
   const [text, setTextContent] = useState<string>('');
+  const [featuredImage, setFeaturedImage] = useState<string>('');
   const { user } = useUser();
   const {
     register,
@@ -80,6 +95,7 @@ export default function ArticleForm() {
     const fullData = {
       ...data,
       text,
+      featuredImage,
     };
 
     try {
@@ -116,6 +132,8 @@ export default function ArticleForm() {
   if (!user) {
     return <Loading />;
   }
+
+  console.log('FEATURED IMAGE IS:' + featuredImage)
 
   return (
     <Card className='w-full max-w-6xl mx-auto'>
@@ -163,6 +181,48 @@ export default function ArticleForm() {
               as={Input}
             /> */}
           </div>
+          <div>
+            <div>
+              Featured Image:
+              <FilePond
+                acceptedFileTypes={['image/*']}
+                allowMultiple={false}
+                name='featuredImage'
+                labelIdle='Drag & Drop your featured image or <span class="filepond--label-action">Browse</span>'
+                server={{
+                  process: async (
+                    fieldName,
+                    file,
+                    metadata,
+                    load,
+                    error,
+                    progress
+                  ) => {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('upload_preset', 'astartrade'); // Replace with your Cloudinary upload preset.
+
+                    try {
+                      const response = await fetch(
+                        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+                        {
+                          method: 'POST',
+                          body: formData,
+                        }
+                      );
+
+                      const data = await response.json();
+                      setFeaturedImage(data.secure_url); // Store the uploaded image URL.
+                      load(data.secure_url); // Notify FilePond of the successful upload.
+                    } catch (err) {
+                      console.error(err + '123456789');
+                      error('Image upload failed');
+                    }
+                  },
+                }}
+              />
+            </div>
+          </div>
           <TinyMCE
             value={text}
             onChange={(content: React.SetStateAction<string>) =>
@@ -192,8 +252,6 @@ export default function ArticleForm() {
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-
-
             <Input
               {...register('thumbnail')}
               label='Thumbnail URL'
