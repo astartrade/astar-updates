@@ -7,7 +7,7 @@ const globalForPrisma = global as unknown as { prisma: PrismaClient };
 const prisma =
   globalForPrisma.prisma ||
   new PrismaClient({
-    log: ['query', 'info', 'warn', 'error'], // Enable logging for debugging
+    log: process.env.NODE_ENV === 'production' ? [] : ['query', 'info', 'warn', 'error'],
   });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
@@ -19,8 +19,6 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
     console.error('Request missing slug parameter');
     return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
   }
-
-  console.log('Fetching article for slug ######:', slug);
 
   try {
     const article = await prisma.article.findFirst({

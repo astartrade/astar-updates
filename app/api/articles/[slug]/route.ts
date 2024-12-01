@@ -47,9 +47,28 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// UPDATE
 export async function PUT(req: NextRequest) {
+  console.log('Processing PUT request for article update');
+  console.log('Request URL:', req.url); // Log the full URL
+
   try {
+    const path = req.nextUrl.pathname;
+    const slug = path.split('/').pop();
+    console.log('Received slug:', slug);
+
+    if (!slug) {
+      console.log('slug is required .....');
+      return NextResponse.json(
+        { error: 'Article slug is required' },
+        { status: 400 }
+      );
+    }
+
+    const data = await req.json();
+    console.log('Request data:', data);
+
+    const updatedSlug = generateSlug(data.title);
+
     const { userId } = await auth();
     const user = await currentUser();
 
@@ -57,28 +76,17 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get('id');
-    if (!id) {
-      return NextResponse.json(
-        { error: 'Article ID is required' },
-        { status: 400 }
-      );
-    }
-
-    const data = await req.json();
-    const slug = generateSlug(data.title);
-
     const author = await getOrCreateAuthor(userId, user);
 
     const updatedArticle = await prisma.article.update({
-      where: { id: parseInt(id) },
+      where: { slug },
       data: {
         title: data.title,
-        slug: slug,
+        slug: updatedSlug,
         authorId: author.id,
         category: data.category,
         text: data.text,
+        excerpt: data.excerpt,
         publishedDate: new Date(data.publishedDate),
         status: data.status,
         featuredImage: data.featuredImage,
@@ -87,9 +95,20 @@ export async function PUT(req: NextRequest) {
       include: { author: true },
     });
 
-    return NextResponse.json(updatedArticle);
+    console.log('Article updated successfully:', updatedArticle);
+    return NextResponse.json(updatedArticle, { status: 200 }); // Explicit 200
   } catch (error) {
-    console.error('Failed to update article:', error);
+    console.error('Failed to process PUT request:', error);
+
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      'code' in error &&
+      (error as any).code === 'P2025'
+    ) {
+      return NextResponse.json({ error: 'Article not found' }, { status: 404 });
+    }
+
     return NextResponse.json(
       { error: 'Failed to update article' },
       { status: 500 }
@@ -128,10 +147,10 @@ export async function DELETE(
       where: { slug },
       select: { featuredImage: true },
     });
-    
+
     if (article?.featuredImage) {
       // Extract the public_id
-     
+
       const publicId = extractPublicId(article?.featuredImage as string);
       console.log(publicId + '#############');
 
@@ -165,5 +184,3 @@ export async function DELETE(
     );
   }
 }
-
-

@@ -90,7 +90,6 @@ export default function TinyMCE({ value, onChange }: TiptapProps) {
           },
         },
       }}
-      initialValue='Start writing here...'
     />
   );
 }
