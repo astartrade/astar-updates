@@ -1,14 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { generateSlug, getOrCreateAuthor } from "@/config/functions";
+import { generateSlug, getOrCreateAuthor } from '@/config/functions';
+import { v2 as cloudinary } from 'cloudinary';
+import { extractPublicId } from '@/config/cloudinaryUploader';
 
 const prisma = new PrismaClient();
-
-
-
-
-
 
 // READ (all articles)
 export async function GET(req: NextRequest) {
@@ -16,7 +13,7 @@ export async function GET(req: NextRequest) {
     const { userId } = await auth();
 
     if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(req.url);
@@ -42,8 +39,11 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Failed to fetch articles:", error);
-    return NextResponse.json({ error: "Failed to fetch articles" }, { status: 500 });
+    console.error('Failed to fetch articles:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch articles' },
+      { status: 500 }
+    );
   }
 }
 
@@ -54,13 +54,16 @@ export async function PUT(req: NextRequest) {
     const user = await currentUser();
 
     if (!userId || !user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
     if (!id) {
-      return NextResponse.json({ error: "Article ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Article ID is required' },
+        { status: 400 }
+      );
     }
 
     const data = await req.json();
@@ -86,27 +89,65 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json(updatedArticle);
   } catch (error) {
-    console.error("Failed to update article:", error);
-    return NextResponse.json({ error: "Failed to update article" }, { status: 500 });
+    console.error('Failed to update article:', error);
+    return NextResponse.json(
+      { error: 'Failed to update article' },
+      { status: 500 }
+    );
   }
 }
-// DELETE
-export async function DELETE(req: Request, { params }: { params: { slug: string } }) {
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { slug: string } }
+) {
   try {
-    // Check for authenticated user
     const { userId } = await auth();
 
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { slug } = params; // Get slug from the URL params
+    const { slug } = params;
 
     if (!slug) {
-      return NextResponse.json({ error: 'Article slug is required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Article slug is required' },
+        { status: 400 }
+      );
     }
 
-    // Delete article based on slug
+    // Fetch article to get the featuredImage URL
+    const article = await prisma.article.findUnique({
+      where: { slug },
+      select: { featuredImage: true },
+    });
+    
+    if (article?.featuredImage) {
+      // Extract the public_id
+     
+      const publicId = extractPublicId(article?.featuredImage as string);
+      console.log(publicId + '#############');
+
+      // Delete the image from Cloudinary
+      const cloudinaryResult = await cloudinary.uploader.destroy(publicId);
+
+      if (cloudinaryResult.result !== 'ok') {
+        console.warn('Cloudinary deletion result:', cloudinaryResult);
+      } else {
+        console.log('Image successfully deleted from Cloudinary.');
+      }
+    } else {
+      console.log('No featuredImage to delete.');
+    }
+
+    // Delete the article from the database
     const deletedArticle = await prisma.article.delete({
       where: { slug },
     });
@@ -114,11 +155,15 @@ export async function DELETE(req: Request, { params }: { params: { slug: string 
     return NextResponse.json({
       message: 'Article deleted successfully',
       article: deletedArticle,
-      status: 200
-      
+      status: 200,
     });
   } catch (error) {
     console.error('Failed to delete article:', error);
-    return NextResponse.json({ error: 'Failed to delete article' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete article' },
+      { status: 500 }
+    );
   }
 }
+
+

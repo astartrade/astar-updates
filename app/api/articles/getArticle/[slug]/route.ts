@@ -1,16 +1,26 @@
+// app/api/articles/getArticle/[slug]/route.ts
 import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
-const prisma = new PrismaClient();
+// Reuse PrismaClient instance to prevent multiple connections
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'], // Enable logging for debugging
+  });
 
-// Export a named handler for the GET method
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
 export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
   const { slug } = params;
 
-
   if (!slug) {
+    console.error('Request missing slug parameter');
     return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
   }
+
+  console.log('Fetching article for slug ######:', slug);
 
   try {
     const article = await prisma.article.findFirst({
@@ -19,12 +29,13 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
     });
 
     if (!article) {
+      console.warn(`Article with slug "${slug}" not found`);
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });
     }
 
     return NextResponse.json(article, { status: 200 });
   } catch (error) {
-    console.error('Error fetching article:', error);
+    console.error(`Error fetching article with slug "${slug}":`, error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

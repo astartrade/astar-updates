@@ -38,3 +38,10 @@ export const uploadToCloudinary = async (
     throw new Error('Image upload failed');
   }
 };
+
+
+export const extractPublicId = (url: string) => {
+  const parts = url.split('/');
+  const versionAndFile = parts[parts.length - 1]; // Get the last part
+  return versionAndFile.split('.')[0]; // Remove file extension
+};

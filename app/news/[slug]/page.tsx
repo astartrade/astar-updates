@@ -66,7 +66,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete the article');
+        throw new Error('Failed to delete the article ...');
       }
 
       // Optionally, you can redirect the user or update the state after successful deletion
@@ -115,12 +115,12 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
                   </Link>
                 </Tooltip>
                 <Tooltip color='secondary' content='Edit This Article'>
-                  <Link href={'#'}>
-                    <LucideFilePenLine
-                      className='text-white  bg-lime-600 
-              rounded-full box-content p-1'
-                    />
-                  </Link>
+                  <button
+                    onClick={() => router.push(`/news/edit/${article.slug}`)}
+                    tabIndex={0}
+                    className='text-white bg-lime-600 rounded-full box-content p-1'>
+                    <LucideFilePenLine />
+                  </button>
                 </Tooltip>
                 <Tooltip color='danger' content='Delete News Article'>
                   <Link href={'#'} onClick={onOpen}>
