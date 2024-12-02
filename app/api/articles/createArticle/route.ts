@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 // CREATE
 export async function POST(req: NextRequest) {
+    console.log('Starting ....')
     try {
         const { userId } = await auth();
         const user = await currentUser();

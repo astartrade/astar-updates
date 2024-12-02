@@ -76,7 +76,7 @@ const EditArticle = ({ params }: EditArticleProps) => {
   const { isLoaded, userId } = useAuth();
   const router = useRouter();
   const [tinyContent, setTinyContent] = useState<string>(article?.text || ''); // TinyMCE content state
-  console.log(tinyContent);
+  // console.log(tinyContent);
   const {
     register,
     handleSubmit,

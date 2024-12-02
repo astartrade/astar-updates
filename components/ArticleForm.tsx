@@ -100,7 +100,7 @@ export default function ArticleForm() {
     };
 
     try {
-      const response = await axios.post('/api/articles/createArticle', {
+      const response = await axios.post('/api/articles/createArticle/', {
         ...fullData,
         author: {
           name: fullData.authorName,
@@ -134,7 +134,7 @@ export default function ArticleForm() {
     return <Loading />;
   }
 
-  console.log('FEATURED IMAGE IS:' + featuredImage);
+  console.log('FEATURED IMAGE IS.......: '+ featuredImage);
 
   return (
     <Card className='w-full max-w-6xl mx-auto'>

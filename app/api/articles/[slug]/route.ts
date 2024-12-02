@@ -7,14 +7,20 @@ import { extractPublicId } from '@/config/cloudinaryUploader';
 
 const prisma = new PrismaClient();
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 // READ (all articles)
 export async function GET(req: NextRequest) {
   try {
-    const { userId } = await auth();
+    // const { userId } = await auth();
 
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // if (!userId) {
+    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // }
 
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get('page') || '1');
@@ -95,7 +101,7 @@ export async function PUT(req: NextRequest) {
       include: { author: true },
     });
 
-    console.log('Article updated successfully:', updatedArticle);
+    // console.log('Article updated successfully:', updatedArticle);
     return NextResponse.json(updatedArticle, { status: 200 }); // Explicit 200
   } catch (error) {
     console.error('Failed to process PUT request:', error);
@@ -116,12 +122,8 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
+// DELETE
 export async function DELETE(
   req: Request,
   { params }: { params: { slug: string } }

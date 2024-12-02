@@ -1,12 +1,12 @@
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-interface TiptapProps {
+interface TinyMCEProps {
   value: string;
   onChange: (content: string) => void;
 }
 
-export default function TinyMCE({ value, onChange }: TiptapProps) {
+export default function TinyMCE({ value, onChange }: TinyMCEProps) {
   return (
     <Editor
       apiKey={process.env.NEXT_PUBLIC_TINY_MCE}

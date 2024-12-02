@@ -242,7 +242,7 @@ export default function App() {
               size="md"
               variant="flat"
               color="success"
-              onPress={()=>router.push('article')}
+              onPress={()=>router.push('create-article')}
             >
               Add New Article
             </Button>
