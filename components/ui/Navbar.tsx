@@ -164,11 +164,11 @@ export const Navbar = () => {
             </Link>
 
             <UserButton>
-              <UserButton.UserProfileLink
+              {/* <UserButton.UserProfileLink
                 label='Manage News'
                 url='/admin'
                 labelIcon={<LucideBookCheck className='w-4 h-4' />}
-              />
+              /> */}
               <UserButton.UserProfileLink
                 label='Add News Article'
                 url='/create-article'

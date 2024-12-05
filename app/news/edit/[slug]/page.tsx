@@ -1,3 +1,4 @@
+// app/news/edit/[slug]/page.tsx
 'use client';
 
 import Loading from '@/components/ui/Loading';
@@ -19,6 +20,7 @@ import {
   ModalHeader,
   Tooltip,
   useDisclosure,
+  ModalContent,
 } from '@nextui-org/react';
 import { ArrowRight, LucideTrash2 } from 'lucide-react';
 import { format } from 'date-fns/format';
@@ -31,6 +33,7 @@ import { uploadToCloudinary } from '@/config/cloudinaryUploader';
 import Image from 'next/image';
 import axios from 'axios';
 import TinyMCE from '@/components/TinyCE';
+import { revalidatePath } from 'next/cache';
 
 interface Author {
   avatar: string | undefined;
@@ -149,6 +152,29 @@ const EditArticle = ({ params }: EditArticleProps) => {
     }
   };
 
+  const handleDelete = async (slug: string) => {
+    try {
+      // setLoading(true);
+      const response = await fetch(`/api/deleteFeaturedImage/${slug}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete the featured Image ...');
+        
+      }
+  
+      toast.success('Featured Image Deleted successfully!');
+      window.location.reload();
+    } catch (err: any) {
+      console.error('Error deleting image:', err);
+      setError(err.message);
+    } finally {
+      
+    }
+  };
+  
+
   if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
   if (!article) return <p>Article not found</p>;
@@ -164,6 +190,54 @@ const EditArticle = ({ params }: EditArticleProps) => {
               color='warning'>
               {article.category}
             </Chip>
+            <Button
+              onPress={onOpen}
+              className='px-4  rounded-none text-white bg-red-600 uppercase absolute z-50 inset-y-0 left-5 top-2'
+              size='sm'
+              color='warning'
+              endContent={<LucideTrash2 className=' w-4 h-4 ' />}>
+              <span> {' Remove Image'}</span>
+            </Button>
+
+            <Modal backdrop={'opaque'} isOpen={isOpen} onClose={onClose}>
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader className='flex flex-col gap-1'>
+                      Delete Featured Imamge
+                    </ModalHeader>
+                    <ModalBody>
+                      <div className='flex items-center gap-4'>
+                        <div>
+                          <Avatar
+                            className='w-20 h-20'
+                            isBordered
+                            radius='none'
+                            src={article?.featuredImage}
+                          />
+                        </div>
+                        <p>
+                          Once deleted, Image cannot be recovered. Please ensure
+                          you want to proceed, as this action is permanent and
+                          irreversible.
+                        </p>
+                      </div>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color='danger' variant='light' onPress={onClose}>
+                        Cancel
+                      </Button>
+                      <Button
+                        color='danger'
+                        onPress={() => handleDelete(article.slug)}>
+                        {/* confirm delete article */}
+                        Delete
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
 
             <Image
               alt={article.title}

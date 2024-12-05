@@ -154,7 +154,7 @@ export async function DELETE(
       // Extract the public_id
 
       const publicId = extractPublicId(article?.featuredImage as string);
-      console.log(publicId + '#############');
+      console.log(publicId + ' #############');
 
       // Delete the image from Cloudinary
       const cloudinaryResult = await cloudinary.uploader.destroy(publicId);

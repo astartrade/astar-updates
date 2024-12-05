@@ -167,12 +167,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             <Image
               alt={article.title}
               fallbackSrc={article.featuredImage}
-              src={article.featuredImage}
-              // src={
-              //   article.featuredImage
-              //     ? article.featuredImage
-              //     : article.featuredImage
-              // }
+              src={article.featuredImage}             
               width={1000}
               height={475}
               sizes='100vw'
