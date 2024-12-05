@@ -46,10 +46,11 @@ const BlogCard: React.FC<BlogCardProps> = ({
       </div>
       <div className="my-3">
         <h3
-          className={`${bebas.className} text-xl text-gray-800 dark:text-neutral-300 dark:group-hover:text-white`}>
+          className={`${bebas.className} text-xl leading-[1.3rem] text-gray-800 dark:text-neutral-300
+           dark:group-hover:text-white`}>
           {title}
         </h3>
-        <div className="mt-2 text-gray-600 dark:text-neutral-400">
+        <div className="mt-4 text-gray-600 dark:text-neutral-400 text-sm">
           {description}
         </div>
       </div>

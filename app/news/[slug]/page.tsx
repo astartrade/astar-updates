@@ -191,7 +191,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
               </div>
             </div>
 
-            <div className='flex items-center gap-4 mb-6'>
+            <div className='flex items-center gap-4 mb-6 hidden'>
               <Avatar
                 className='w-8 h-8'
                 src={article.author.avatar}
