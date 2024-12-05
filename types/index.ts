@@ -17,6 +17,7 @@ export type Article = {
   title: string;
   category: string;
   text: string;
+  views?: number;
   publishedDate: Date;
   status: string;
   thumbnail?: string | null;

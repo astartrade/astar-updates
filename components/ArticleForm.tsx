@@ -134,7 +134,7 @@ export default function ArticleForm() {
     return <Loading />;
   }
 
-  console.log('FEATURED IMAGE IS.......: '+ featuredImage);
+  // console.log('FEATURED IMAGE IS.......: '+ featuredImage);
 
   return (
     <Card className='w-full max-w-6xl mx-auto'>
