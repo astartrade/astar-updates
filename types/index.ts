@@ -15,8 +15,11 @@ export type Author = {
 export type Article = {
   id: string;
   title: string;
+  slug: string;
   category: string;
   text: string;
+  excerpt?: string;
+  featuredImage?: string;
   views?: number;
   publishedDate: Date;
   status: string;
