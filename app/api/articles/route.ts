@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
+    console.log('fetching articles ...')
     const articles = await prisma.article.findMany({
       include: {
         author: true, // Include related author information

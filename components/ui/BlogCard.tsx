@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { bebas } from "@/config/fonts";
+import { bebas } from '@/config/fonts';
 
 interface BlogCardProps {
   imageSrc?: string;
@@ -12,45 +12,40 @@ interface BlogCardProps {
   avatarAlt?: string;
   author?: string;
   url?: string;
-
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({
-  imageSrc ="https://fakeimg.pl/600x400",
-  imageAlt="Astar news",
+  imageSrc = 'https://fakeimg.pl/600x400',
+  imageAlt = 'Astar news',
   title,
   description,
-  avatarSrc = "/images/logo.png",
-  avatarAlt = "Astar Team",
-  author = "By Astar Team",
-  url='#'
+  avatarSrc = '/images/logo.png',
+  avatarAlt = 'Astar Team',
+  author = 'By Astar Team',
+  url = '#',
 }) => {
   return (
     <Link
-      className=" group flex h-full flex-col rounded-xl border border-gray-200 bg-white p-3 transition duration-300 hover:border-transparent hover:shadow-lg focus:border-transparent focus:shadow-lg focus:outline-none dark:border-neutral-700 dark:hover:border-transparent dark:hover:shadow-black/40 dark:focus:border-transparent dark:focus:shadow-black/40"
-      href={url}
-    >
-      <div className="aspect-w-16 aspect-h-11">
+      className=' group flex h-full flex-col rounded-xl border border-gray-200 bg-white p-2 transition duration-300 hover:border-transparent hover:shadow-lg focus:border-transparent focus:shadow-lg focus:outline-none dark:border-neutral-700 dark:hover:border-transparent dark:hover:shadow-black/40 dark:focus:border-transparent dark:focus:shadow-black/40'
+      href={url}>
+      <div className='relative aspect-video '>
         <Image
           priority
           alt={imageAlt}
-          className="w-full rounded-xl object-cover"
-          height={800}
+          className='absolute inset-0 z-10 rounded-xl'
+          fill={true}
+          quality={100}
           src={imageSrc}
-          width={800}
-          style={{
-            height: '100%',
-            width: '100%',
-          }}
+          style={{ objectFit: 'cover' }}
         />
       </div>
-      <div className="my-3">
+      <div className='my-3'>
         <h3
           className={`${bebas.className} text-xl leading-[1.3rem] text-gray-800 dark:text-neutral-300
            dark:group-hover:text-white`}>
           {title}
         </h3>
-        <div className="mt-4 text-gray-600 dark:text-neutral-400 text-sm">
+        <div className='mt-4 text-gray-600 dark:text-neutral-400 text-sm'>
           {description}
         </div>
       </div>

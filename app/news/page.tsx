@@ -16,7 +16,7 @@ export default function ArticlesPage() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch('/api/articles/');
+        const res = await fetch('/api/articles/', { cache: 'force-cache' });
         if (!res.ok) {
           throw new Error('');
         }
@@ -30,7 +30,7 @@ export default function ArticlesPage() {
     };
 
     fetchArticles();
-  }, []);
+  }, [articles]);
 
   if (loading) {
     return (
