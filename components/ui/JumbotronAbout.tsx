@@ -253,8 +253,8 @@ const JumbotronAbout = (props: Props) => {
                   alt='Features Image'
                   className='w-full rounded-xl object-cover'
                   height={600}
-                  src='/images/vision3.jpg'
                   width={480}
+                  src='/images/vision3.jpg'
                 />
               </div>
 

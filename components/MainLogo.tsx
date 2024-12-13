@@ -17,11 +17,11 @@ const MainLogo = (props: Props) => {
   const logoHeight = isMobile ? 30 : props.height || 90;
 
   return (
-    <div>
+    <div className=" pr-2">
       <Image
         priority
         alt="Astar Trading & Agro Processing Company Limited"
-        className="rounded-full pr-2"
+        className="rounded-full"
         height={30}
         sizes="(max-width: 700px) 16vw, 70px"
         src="/images/logo.png"

@@ -44,7 +44,7 @@ const PartnerJumbotron = (props: Props) => {
 
   return (
     <section className="grid h-auto min-h-screen grid-cols-1  gap-4 p-4">
-      <div className="container mx-auto grid h-auto grid-cols-1 gap-4 rounded-2xl md:grid-cols-3  ">
+      <div className="container mx-auto grid h-auto grid-cols-1 gap-4 rounded-2xl md:grid-cols-3   min-h-[350px] ">
         <div
           className={`${bebas.className} relative    col-span-2 flex aspect-auto flex-col  justify-end space-y-3 rounded-2xl
         bg-lime-700 p-4 text-base  leading-[1.12rem] text-white md:p-8`}
@@ -73,40 +73,27 @@ const PartnerJumbotron = (props: Props) => {
             Read More ...
           </Button>
         </div>
-        <div className="relative col-span-1 flex flex-col justify-center rounded-3xl md:col-span-1">
+        <div className="relative  aspect-square md:aspect-auto col-span-1 flex flex-col justify-center rounded-3xl md:col-span-1   ">
           <Image
             alt="Vision Background"
-            className="absolute inset-0 z-10 rounded-2xl"
-            fill={true}
-            quality={100}
+            className="absolute inset-0 z-10 rounded-2xl object-cover"
             src="/images/aaha.jpg"
-            style={{ objectFit: "cover" }}
+            fill
+            quality={100}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-          <div className=" container z-20 mx-auto flex flex-col items-center justify-center space-y-3 ">
-            <div>
-              {/* <div
-                className='max-w-5xl md:text-3xl text-white  p-4 md:p-8'
-                data-scroll
-                data-scroll-speed={0.1}>
-                Founded on the belief that Africa’s future lies in its ability
-                to collaborate, trade, and invest within itself, ASTAR LLC was
-                created to promote sustainable regional growth. Our team brings
-                decades of experience in commodities trading and investment
-                management, with a special focus on the African continent.
-              </div> */}
-            </div>
-          </div>
+
         </div>
       </div>
-      <div className="container mx-auto grid h-auto grid-cols-1 gap-4 rounded-2xl md:grid-cols-3  ">
-        <div className="relative col-span-1 flex flex-col justify-center rounded-3xl md:col-span-1">
+      <div className="container mx-auto grid h-auto grid-cols-1 gap-4 rounded-2xl md:grid-cols-3   min-h-[350px] ">
+        <div className="relative aspect-square md:aspect-auto col-span-1 flex flex-col justify-center rounded-3xl md:col-span-1">
           <Image
             alt="Vision Background"
-            className="absolute inset-0 z-10 rounded-2xl"
-            fill={true}
+            className="absolute inset-0 z-10 rounded-2xl object-cover"
+            fill
             quality={100}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             src="/images/real-estate2.jpg"
-            style={{ objectFit: "cover" }}
           />
         </div>
         <div
@@ -140,7 +127,7 @@ const PartnerJumbotron = (props: Props) => {
         </div>
       </div>
 
-      <div className="container mx-auto grid h-auto grid-cols-1 gap-4 rounded-2xl md:grid-cols-3  ">
+      <div className="container mx-auto grid h-auto grid-cols-1 gap-4 rounded-2xl md:grid-cols-3  min-h-[350px] ">
         <div
           className={`${bebas.className} relative    col-span-2 flex aspect-auto flex-col  justify-center space-y-3 rounded-2xl
         bg-blue-700 p-4 text-base  leading-[1.12rem] text-white md:p-8`}
@@ -169,17 +156,18 @@ const PartnerJumbotron = (props: Props) => {
             Read More ...
           </Button>
         </div>
-        <div className="relative col-span-1 flex flex-col justify-center rounded-3xl md:col-span-1">
+        <div className="relative  aspect-square md:aspect-auto col-span-1 flex flex-col justify-center rounded-3xl md:col-span-1">
           <Image
+            className="absolute inset-0 z-10 rounded-2xl object-cover"
+            fill
+            quality={100}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority
             alt="Vision Background"
-            className="absolute inset-0 z-10 rounded-2xl"
-            fill={true}
-            quality={100}
             src="/images/airport2.jpg"
-            style={{ objectFit: "cover" }}
           />
         </div>
+
       </div>
     </section>
   );

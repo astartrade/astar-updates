@@ -26,11 +26,11 @@ const Slider = ({
       <Image
         priority
         alt="Vision Background"
-        className="absolute inset-0 z-10 "
-        fill={true}
+        className="absolute inset-0 z-10 object-cover "
+        fill
         quality={100}
         src={`/images/${image}`}
-        style={{ objectFit: "cover" }}
+        style={{ objectFit: "cover", width: "100%", height: "100%" }}
       />
       <div className="absolute inset-0 z-10 bg-black/45" />
       <div className="z-30 space-y-3 px-2 md:space-y-4">

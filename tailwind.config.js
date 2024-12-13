@@ -1,7 +1,8 @@
 import { nextui } from '@nextui-org/theme';
+import tailwindcssAnimate from 'tailwindcss-animate';
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
@@ -12,7 +13,7 @@ module.exports = {
       fontFamily: {
         sans: ['Poppins', 'var(--font-sans)'],
         mono: ['var(--font-mono)'],
-        bebas: ["var(--font-bebas)", "sans-serif"], // Reference the CSS variable
+        bebas: ['var(--font-bebas)', 'sans-serif'], // Reference the CSS variable
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -86,5 +87,5 @@ module.exports = {
     },
   },
   darkMode: ['class', 'class'],
-  plugins: [nextui(), require('tailwindcss-animate')],
+  plugins: [nextui(), tailwindcssAnimate],
 };
