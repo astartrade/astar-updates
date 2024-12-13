@@ -23,10 +23,11 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import Loading from '@/components/ui/Loading';
 import { useAuth } from '@clerk/nextjs';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+
+import Loading from '@/components/ui/Loading';
 
 export default function ArticlePage({ params }: { params: { slug: string } }) {
   const router = useRouter();

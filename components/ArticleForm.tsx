@@ -5,18 +5,19 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@nextui-org/button';
-import { Input, Textarea } from '@nextui-org/input';
+import { Input } from '@nextui-org/input';
 import { Select, SelectItem } from '@nextui-org/select';
 import { Card, CardBody, CardHeader } from '@nextui-org/card';
 import { ArrowRight } from 'lucide-react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useUser } from '@clerk/nextjs';
-import { Avatar, DatePicker } from '@nextui-org/react';
+import { Avatar } from '@nextui-org/react';
+
 import TinyMCE from './TinyCE';
 import Loading from './ui/Loading';
+
 import { useRouter } from 'next/navigation';
-import { CldImage, CldUploadWidget } from 'next-cloudinary';
 
 // Import React FilePond
 import { FilePond, registerPlugin } from 'react-filepond';
@@ -29,6 +30,7 @@ import 'filepond/dist/filepond.min.css';
 // `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import { uploadToCloudinary } from '@/config/cloudinaryUploader';
 

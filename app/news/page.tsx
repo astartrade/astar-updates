@@ -1,38 +1,36 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, CardHeader, CardBody, CardFooter } from '@nextui-org/card';
-import { Chip } from '@nextui-org/chip';
-import { Image } from '@nextui-org/image';
+
 import { bebas } from '@/config/fonts';
 import BlogCard from '@/components/ui/BlogCard';
 import { Article } from '@/types';
 
 export default function ArticlesPage() {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [articles, setArticles] = useState<Article[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch('/api/articles/', { cache: 'force-cache' });
+        const res = await fetch('/api/articles')
         if (!res.ok) {
-          throw new Error('');
+          throw new Error('Not working');
         }
         const data = await res.json();
         setArticles(data);
-        setLoading(false);
+        setIsLoading(false);
       } catch (error: any) {
         setError(error.message);
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchArticles();
-  }, [articles]);
+  }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className='text-center py-10'>
                 {/* Title */}

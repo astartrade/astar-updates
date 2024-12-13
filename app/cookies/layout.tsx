@@ -1,4 +1,3 @@
-import { lato } from "@/config/fonts";
 
 export default function AboutLayout({
   children,
@@ -6,7 +5,7 @@ export default function AboutLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className={`${lato.className} container mx-auto`}>
+    <section className={` container mx-auto`}>
       {children}
     </section>
   );

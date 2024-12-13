@@ -31,12 +31,13 @@ const BlogCard: React.FC<BlogCardProps> = ({
       <div className='relative aspect-video '>
         <Image
           priority
-          alt={imageAlt}
-          className='absolute inset-0 z-10 rounded-xl'
-          fill={true}
+          fill
           quality={100}
+          style={{ objectFit: "cover", width: "100%", height: "100%" }}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          alt={imageAlt}
           src={imageSrc}
-          style={{ objectFit: 'cover' }}
+          className='absolute inset-0 z-10 rounded-xl object-cover '
         />
       </div>
       <div className='my-3'>

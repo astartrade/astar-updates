@@ -1,7 +1,6 @@
 // app/news/edit/[slug]/page.tsx
 'use client';
 
-import Loading from '@/components/ui/Loading';
 import {
   Avatar,
   Button,
@@ -9,31 +8,27 @@ import {
   CardBody,
   CardHeader,
   Chip,
-  Divider,
   Input,
   Select,
   SelectItem,
-  Textarea,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Tooltip,
   useDisclosure,
   ModalContent,
 } from '@nextui-org/react';
-import { ArrowRight, LucideTrash2 } from 'lucide-react';
-import { format } from 'date-fns/format';
+import { LucideTrash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { uploadToCloudinary } from '@/config/cloudinaryUploader';
 import Image from 'next/image';
 import axios from 'axios';
+
+import Loading from '@/components/ui/Loading';
 import TinyMCE from '@/components/TinyCE';
-import { revalidatePath } from 'next/cache';
 
 interface Author {
   avatar: string | undefined;

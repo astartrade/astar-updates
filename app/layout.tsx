@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
-import clsx from "clsx";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -39,11 +38,8 @@ export default function RootLayout({
       <head />
       <body
 
-      className={`min-h-screen  overflow-x-hidden bg-gray-100 text-[16px] antialiased ${poppins.className} ${bebas.variable}`}
-        // className={clsx(
-        //   " font-bebas ",
-        //   poppins.className,
-        // )}
+      className={`min-h-screen  overflow-x-hidden bg-gray-100 text-[16px] antialiased 
+        ${poppins.className} ${bebas.variable}`}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <main>

@@ -16,16 +16,16 @@ import NextLink from "next/link";
 import clsx from "clsx";
 import { FaFacebook, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import { motion } from "framer-motion";
-import { LucideArrowUpRight, LucideBookCheck, LucidePlusSquare, SearchIcon } from "lucide-react";
+import { LucideArrowUpRight, LucidePlusSquare, SearchIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { useMediaQuery } from "react-responsive";
+import { UserButton } from "@clerk/nextjs";
 
 import MainLogo from "../MainLogo";
 
 import { bebas } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
-import { UserButton } from "@clerk/nextjs";
 
 export const Navbar = () => {
   // media query for mobile etc

@@ -1,7 +1,8 @@
-import { generateSlug, getOrCreateAuthor } from "@/config/functions";
-import { prisma } from "@/lib/prisma";
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from "next/server";
+
+import { generateSlug, getOrCreateAuthor } from "@/config/functions";
+import { prisma } from "@/lib/prisma";
 
 // CREATE
 export async function POST(req: NextRequest) {

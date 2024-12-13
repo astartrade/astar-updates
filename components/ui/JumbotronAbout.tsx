@@ -2,10 +2,9 @@
 import React from 'react';
 import Image from 'next/image';
 import { LucideArrowUpRight } from 'lucide-react';
+import { Button } from '@nextui-org/button';
 
 import { bebas, poppins } from '@/config/fonts';
-import Link from 'next/link';
-import { Button } from '@nextui-org/button';
 
 type Props = {};
 

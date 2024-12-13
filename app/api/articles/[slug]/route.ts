@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { generateSlug, getOrCreateAuthor } from '@/config/functions';
 import { v2 as cloudinary } from 'cloudinary';
+
+import { generateSlug, getOrCreateAuthor } from '@/config/functions';
 import { extractPublicId } from '@/config/cloudinaryUploader';
 
 const prisma = new PrismaClient();
@@ -124,10 +125,7 @@ export async function PUT(req: NextRequest) {
 
 
 // DELETE
-export async function DELETE(
-  req: Request,
-  { params }: { params: { slug: string } }
-) {
+export async function DELETE(req: NextRequest) {
   try {
     const { userId } = await auth();
 
@@ -135,7 +133,8 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { slug } = params;
+    const slug = req.nextUrl.pathname.split('/').pop();
+
 
     if (!slug) {
       return NextResponse.json(

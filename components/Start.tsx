@@ -4,7 +4,7 @@ import React from "react";
 
 import BackgroundImageWrapper from "./BackgroundImageWrapper";
 
-import { bebas, playfair_display } from "@/config/fonts";
+import { bebas } from "@/config/fonts";
 
 type Props = {
   title?: string;
@@ -76,7 +76,7 @@ const Start = ({ title, order = 1, children }: Props) => {
           className={`${bebas.className} flex w-full items-center justify-between font-bebas`}
         >
           <div
-            className={`text-[1.7em] text-white ${playfair_display.className}`}
+            className={`text-[1.7em] text-white`}
           >
             {title}
           </div>

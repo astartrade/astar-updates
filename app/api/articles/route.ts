@@ -4,18 +4,27 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function GET() {
+  console.log('FETCHING ARTICLES');
   try {
-    console.log('fetching articles ...')
     const articles = await prisma.article.findMany({
       include: {
-        author: true, // Include related author information
+        author: true,
       },
     });
 
+    // Check if articles is null or undefined
+    if (!articles) {
+      throw new Error('No articles found');
+    }
+
     return NextResponse.json(articles);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch articles' }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
+  } catch (error: any | Error) {
+    console.error('Error fetching articles:', error);
+
+    // Ensure error message is a valid object
+    return NextResponse.json(
+      { error: error.message || 'Error fetching articles' },
+      { status: 500 }
+    );
   }
 }
