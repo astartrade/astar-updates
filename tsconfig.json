@@ -22,9 +22,7 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@/fonts": ["./styles/fonts"],
-      "@functions*": ["./utils/functions/*"]
-
+      "~/*": ["./*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/user.ts", "app/api/webhooks/clerk/route.js", "app/gsap/page.js"],
