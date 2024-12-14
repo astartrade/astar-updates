@@ -1,19 +1,8 @@
-// app/api/articles/getArticle/[slug]/route.ts
-import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 
-// Reuse PrismaClient instance to prevent multiple connections
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
-const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient({
-    log: process.env.NODE_ENV === 'production' ? [] : ['query', 'info', 'warn', 'error'],
-  });
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
-
-export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
-  const { slug } = params;
+export async function GET(req: NextRequest) {
+  const slug = req.nextUrl.pathname.split('/').pop(); // Extract the slug from the URL
 
   if (!slug) {
     console.error('Request missing slug parameter');

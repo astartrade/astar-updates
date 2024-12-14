@@ -20,7 +20,7 @@ import {
 } from '@nextui-org/react';
 import { LucideTrash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -65,8 +65,8 @@ const newsCategories = [
   { label: 'Health and Wellness', value: 'health-wellness' },
 ];
 
-const EditArticle = ({ params }: EditArticleProps) => {
-  const { slug } = params;
+const EditArticle = ({ params }: { params: Promise<{ slug: string }> }) => {
+  const { slug } = use(params);
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
