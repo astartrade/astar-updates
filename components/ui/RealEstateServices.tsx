@@ -72,7 +72,7 @@ const RealEstateServices = ({ title, order = 1, children }: Props) => {
             </div>
           </div>
           <div
-            className="relative   col-span-1 flex flex-col justify-end space-y-2
+            className="relative  md:aspect-auto aspect-square  col-span-1 flex flex-col justify-end space-y-2
         rounded-2xl bg-black p-4 text-base leading-[1.12rem] text-white"
           >
             <LucideArrowUpRight className="absolute right-3 top-3 text-white " />
@@ -107,7 +107,7 @@ const RealEstateServices = ({ title, order = 1, children }: Props) => {
           </div>
           <ServiceCardWithBackgroundImage backgroundImage="trust.jpg" />
           <div
-            className="relative   col-span-1 flex  flex-col justify-end space-y-2
+            className="relative  md:aspect-auto aspect-square  col-span-1 flex  flex-col justify-end space-y-2
         rounded-2xl bg-black p-4 text-base leading-[1.12rem] text-white"
           >
             <LucideArrowUpRight className="absolute right-3 top-3 text-white " />

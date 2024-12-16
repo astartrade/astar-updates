@@ -23,11 +23,11 @@ const ServiceIntroComponent: React.FC<ServiceIntroComponentProps> = ({
   return (
     <div
       data-scroll
-      className={` overflow-hidden hover:bg rounded-3xl bg-white  relative flex h-auto min-h-full  flex-col items-start justify-start space-y-2  border-neutral-300 p-4 md:aspect-video md:p-8`}
+      className={` overflow-hidden hover:bg rounded-3xl bg-white  relative flex h-auto min-h-full  flex-col items-start justify-start space-y-3 border-neutral-300 p-6 md:aspect-video md:p-8   aspect-square `}
       data-scroll-speed={0.1}
     >
       <div className="flex w-full items-center justify-between ">
-        <h2 className="text-xl">{title}</h2>
+        <h2 className="text-2xl">{title}</h2>
         <div
           className={`bg-${color}-600 absolute right-2 top-2 flex aspect-square items-center justify-center rounded-full`}
         >
@@ -36,7 +36,7 @@ const ServiceIntroComponent: React.FC<ServiceIntroComponentProps> = ({
           </Link>
         </div>
       </div>
-      <div className={`${poppins.className} text-small  font-light`}>
+      <div className={`${poppins.className} text-medium md:text-small font-light`}>
         {description}
       </div>
       {/* <div>
