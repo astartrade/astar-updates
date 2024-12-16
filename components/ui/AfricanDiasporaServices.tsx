@@ -53,7 +53,7 @@ const AfricanDiasporaServices = ({ title, order = 1, children }: Props) => {
           className=" relative z-10 flex h-auto flex-col items-start justify-center space-y-3 pb-7 
          md:px-2"
         >
-          <h1 className="text-[2em] text-yellow-500 ">
+          <h1 className="text-[2em] text-yellow-500 leading-[2rem] ">
             African Diaspora 126+: Reconnecting the Diaspora to the Motherland
           </h1>
 

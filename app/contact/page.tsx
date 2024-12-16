@@ -192,7 +192,7 @@ const ContactStart = () => {
             <Input {...register("company")} placeholder="Company" />
             <textarea
               {...register("message")}
-              className="min-h-16 w-full rounded-xl border p-2 bg-gray-300"
+              className="min-h-32 w-full   rounded-xl border p-2 bg-gray-300"
               placeholder="Send us a Message"
             />
             <Button
