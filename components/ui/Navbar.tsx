@@ -91,11 +91,9 @@ export const Navbar = () => {
 						className='flex items-center justify-between gap-x-2'
 						href={"/"}
 					>
-						<NavbarItem className='flex items-center'>
+						<NavbarItem className='flex items-center gap-x-2 '>
 							<MainLogo />
-							<div
-								className={`md:text-md hidden border-s px-2 text-sm md:block md:leading-4`}
-							>
+							<div className={`md:text-md hidden border-s px-2 text-sm md:block md:leading-4`}>
 								Astar Trading & Agro
 								<br />
 								Processing Company Limited
