@@ -26,18 +26,21 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { useAuth } from "@clerk/nextjs";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react"; // Required for `React.use`
 
 import Loading from "@/components/ui/Loading";
 import SocialShare from "@/components/ui/SocialShare";
+
 
 export default function ArticlePage({
 	params,
 }: {
 	params: Promise<{ slug: string }>;
 }) {
-	const currentURL = window.location.href;
+	const pathname = usePathname(); // Get the path without the domain
+	const baseURL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+	const currentURL = `${baseURL}${pathname}`;
 	const router = useRouter();
 	const { isLoaded, userId } = useAuth();
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -112,6 +115,7 @@ export default function ArticlePage({
 
 	return (
 		<div className='p-2'>
+	
 			<div className='container mx-auto md:p-4'>
 				<Card className='max-w-4xl mx-auto rounded-t-xl shadow-sm'>
 					<CardHeader className='p-0 relative h-auto md:h-[420px] aspect-square md:aspect-video block overflow-hidden '>
