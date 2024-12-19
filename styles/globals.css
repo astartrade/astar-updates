@@ -65,3 +65,6 @@
     @apply bg-background text-foreground;
   }
 }
+.filepond--drop-label {
+    height: 133px;
+}

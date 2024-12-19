@@ -5,6 +5,7 @@ import { v2 as cloudinary } from 'cloudinary';
 
 import { generateSlug, getOrCreateAuthor } from '@/config/functions';
 import { extractPublicId } from '@/config/cloudinaryUploader';
+import { revalidatePath } from 'next/cache';
 
 const prisma = new PrismaClient();
 
@@ -101,6 +102,8 @@ export async function PUT(req: NextRequest) {
       },
       include: { author: true },
     });
+
+    revalidatePath('/news');
 
     // console.log('Article updated successfully:', updatedArticle);
     return NextResponse.json(updatedArticle, { status: 200 }); // Explicit 200
