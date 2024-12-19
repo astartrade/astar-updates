@@ -93,13 +93,13 @@ export const Navbar = () => {
 					>
 						<NavbarItem className='flex items-center'>
 							<MainLogo />
-							<span
+							<div
 								className={`md:text-md hidden border-s px-2 text-sm md:block md:leading-4`}
 							>
 								Astar Trading & Agro
 								<br />
 								Processing Company Limited
-							</span>
+							</div>
 						</NavbarItem>
 					</Link>
 				</NavbarBrand>
