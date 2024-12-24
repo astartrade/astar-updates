@@ -41,3 +41,7 @@ next-env.d.ts
 ./tembo*
 ./*.dump
 tembo_backup.dump
+
+.flaskenv*
+!.env.project
+!.env.vault
