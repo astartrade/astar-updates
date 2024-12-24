@@ -12,6 +12,7 @@ export default function ArticlesPage() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    console.log(process.env.DATABASE_URL);
     const fetchArticles = async () => {
       try {
         const res = await fetch('/api/articles')

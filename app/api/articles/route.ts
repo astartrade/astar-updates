@@ -19,7 +19,7 @@ export async function GET() {
 
     return NextResponse.json(articles);
   } catch (error: any | Error) {
-    console.error('Error fetching articles:', error);
+    console.log('Error fetching articles:', error);
 
     // Ensure error message is a valid object
     return NextResponse.json(

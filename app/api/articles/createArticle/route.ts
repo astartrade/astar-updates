@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 // CREATE
 export async function POST(req: NextRequest) {
     console.log('Starting ....')
+
     try {
         const { userId } = await auth();
         const user = await currentUser();
@@ -16,6 +17,7 @@ export async function POST(req: NextRequest) {
         }
 
         const data = await req.json();
+
         const slug = generateSlug(data.title);
 
         const author = await getOrCreateAuthor(userId, user);
@@ -49,7 +51,7 @@ export async function POST(req: NextRequest) {
                 { status: 409 } // Conflict HTTP status code
             );
         } else {
-            console.error("Failed to create article:", error);
+            console.log("Failed to create article:" + error);
             return NextResponse.json(
                 { 
                     error: "Failed to create article", 
