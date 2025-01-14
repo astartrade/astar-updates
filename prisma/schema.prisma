@@ -1,5 +1,6 @@
 generator client {
   provider      = "prisma-client-js"
+  // rhel is required for vercel depoyment
   binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x"]
 }
 
