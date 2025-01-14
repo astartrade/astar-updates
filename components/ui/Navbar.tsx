@@ -93,7 +93,9 @@ export const Navbar = () => {
 					>
 						<NavbarItem className='flex items-center gap-x-2 '>
 							<MainLogo />
-							<div className={`md:text-md hidden border-s px-2 text-sm md:block md:leading-4`}>
+							<div
+								className={`md:text-md hidden border-s px-2 text-sm md:block md:leading-4`}
+							>
 								Astar Trading & Agro
 								<br />
 								Processing Company Limited
@@ -135,10 +137,16 @@ export const Navbar = () => {
 						{/* <Link href='/'>
 							<FaLinkedinIn className='text-2xl' />
 						</Link> */}
-						<Link target="_blank" href='https://web.facebook.com/profile.php?id=61571467306726'>
+						<Link
+							target='_blank'
+							href='https://web.facebook.com/profile.php?id=61571467306726'
+						>
 							<FaFacebook className='text-2xl' />
 						</Link>
-						<Link target="_blank" href='https://www.instagram.com/access_africa_home_and_abroad?igsh=MTZtN3dkZXp2dmNubw=='>
+						<Link
+							target='_blank'
+							href='https://www.instagram.com/access_africa_home_and_abroad?igsh=MTZtN3dkZXp2dmNubw=='
+						>
 							<FaInstagram className='text-2xl' />
 						</Link>
 					</div>
@@ -226,13 +234,32 @@ export const Navbar = () => {
 									)}
 									color='foreground'
 									href={item.href}
-									onClick={() => setIsMenuOpen(false)}
+									onPress={() => setIsMenuOpen(false)}
 								>
 									{item.label}
 								</Link>
 							</motion.li>
 						))}
 					</motion.ul>
+				</div>
+				<hr className="w-2/5 " />
+				<div className='pt-[5%] flex flex-col space-y-3 '>
+					<Link
+					className="space-x-2 text-2xl capitalize  flex items-center"
+						target='_blank'
+						href='https://web.facebook.com/profile.php?id=61571661246740'
+					>
+						<FaFacebook className="text-3xl" />
+						<span>Facebook</span>
+					</Link>
+					<Link
+					className="space-x-2  text-2xl capitalize flex items-center"
+						target='_blank'
+						href='https://www.instagram.com/astartrade?igsh=MXN0dnJpYnlzNDMyaQ=='
+					>
+						<FaInstagram className="text-3xl" />
+						<span>Instagram</span>
+					</Link>
 				</div>
 			</NavbarMenu>
 		</NextUINavbar>
