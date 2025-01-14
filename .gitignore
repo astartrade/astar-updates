@@ -45,3 +45,5 @@ tembo_backup.dump
 .flaskenv*
 !.env.project
 !.env.vault
+./database
+database

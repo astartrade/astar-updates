@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     const mailOptions = {
       from: `"Astar Trade & Agro processing Co. Ltd." <astar.trade9@gmail.com>`,
       replyTo: formData.email,
-      to: "astar.trade9@gmail.com",
+      to: "info@astar-trade.com",
       subject: `New Contact Form Submission from ${formData.name}`,
       text: `
         Name: ${formData.name}

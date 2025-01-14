@@ -222,7 +222,7 @@ const ContactStart = () => {
                 Contact Details
               </div>
               <p className=" block">
-                Email: info@astar-trade.com <br /> Phone: (+233) 26 917 3378
+                Email: info@astar-trade.com <br /> Phone:  (+233) 593 353 409
               </p>
             </div>
           </div>

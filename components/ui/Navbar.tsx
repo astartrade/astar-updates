@@ -132,13 +132,13 @@ export const Navbar = () => {
         					<ThemeSwitch />
 						</div> */}
 
-						<Link href='/'>
+						{/* <Link href='/'>
 							<FaLinkedinIn className='text-2xl' />
-						</Link>
-						<Link href='/'>
+						</Link> */}
+						<Link target="_blank" href='https://web.facebook.com/profile.php?id=61571467306726'>
 							<FaFacebook className='text-2xl' />
 						</Link>
-						<Link href='/'>
+						<Link target="_blank" href='https://www.instagram.com/access_africa_home_and_abroad?igsh=MTZtN3dkZXp2dmNubw=='>
 							<FaInstagram className='text-2xl' />
 						</Link>
 					</div>
